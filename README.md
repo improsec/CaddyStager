@@ -1,6 +1,6 @@
 # CaddyStager
 
-This repository contains the Caddyfile, Terraform configuration and C# Stager seen in https://improsec/path/to/blogpost
+This repository contains the Caddyfile, Terraform configuration and C# Stager seen in https://improsec.com/tech-blog/staging-cobalt-strike-with-mtls-using-caddy
 
 ## Description
 
