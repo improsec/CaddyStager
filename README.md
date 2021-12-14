@@ -19,12 +19,12 @@ Get Azure CLI from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 ### Executing
 
 To get started, run the following commands:
-```
+```powershell
 git clone https://github.com/improsec/caddystager.git
 cd C:\path\to\caddystager\terraform
 ```
 place terraform.exe in the caddystager\terraform directory. Rember to change the IP range in "variables.tf" to include whatever range you want to allow ALL inbound from.  
-```
+```powershell
 az login
 .\terraform init
 .\terraform validate
@@ -36,24 +36,24 @@ Wait a few minutes and verify that both VM's are up and running. Now configure C
 Save the SSH key to a key.key file
 
 Move Cobalt Strike to the new server
-```
+```powershell
 scp.exe -i key.key .\cobaltstrike-dist.tgz cobalt@cobaltmtls.northeurope.cloudapp.azure.com:/home/cobalt/
 ```
 
 Edit C2concealer. Configuration can be seen in the blogpost.  
 Install C2concealer  
-```
+```zsh
 chmod u+x install.sh
 ./install.sh
 ```
 Open for HTTP+HTTPS on our Cobalt Strike server and run customized C2concealer.  
-```
+```zsh
 C2concealer --hostname caddymtls.northeurope.cloudapp.azure.com
 ```
 After certificates are issed, go ahead and remove the HTTP+HTTPS inbound on Cobalt Strike. At this point, only inbound HTTPS requests from Caddy should be allowed.  
 Setup a listener on Cobalt Strikke for HTTPS on port 443.  
 Switch to the Caddy server and setup a local CA.  
-```
+```zsh
 cd /opt/certs
 openssl genrsa -des3 -out localca.key 2048
 openssl req -x509 -new -nodes -key localca.key -sha256 -days 30 -out localca.pem
@@ -61,7 +61,7 @@ openssl req -new -key client.key -out client.csr
 openssl x509 -req -in client.csr -CA localca.pem -CAkey localca.key -CAcreateserial -out client.crt -days 20 -sha256
 ```
 Get a DER from the CRT issed for our client certificate and base64 encode it:  
-```
+```zsh
 openssl x509 -in client.crt -out client.der -outform DER
 base64 client.der
 ```
